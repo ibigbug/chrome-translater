@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+
+  "name": "Chrome Translater",
+  "description": "提供一个朴实易用的翻译功能.",
+  "version": "1.0",
+
+  "background": {
+    "scripts": [ "lib.js", "main.js" ]
+  },
+
+  "browser_action": {
+    "default_icon": "icon.jpg"
+  },
+
+  "icons": {
+    "128": "icon.jpg",
+    "16": "icon.jpg",
+    "32": "icon.jpg",
+    "48": "icon.jpg"
+  },
+
+  "permissions": [ 
+    "contextMenus",
+    "http://dict.cn/"
+  ]
+}
