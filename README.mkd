@@ -1,0 +1,4 @@
+Chrome-Translater
+======
+
+* English -> Chinese translater for ME who has trouble in reading English.
