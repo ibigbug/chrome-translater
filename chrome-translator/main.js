@@ -1,6 +1,6 @@
 (function(){
   var config = {
-    'title': '翻译选中文字至中文',
+    'title': '翻译选英文翻译为中文',
     'contexts': ['selection'],
     'onclick': doTranslate
   };
@@ -10,24 +10,27 @@
     var word = info.selectionText;
     var BASE_URL = 'http://dict.cn/';
 
-   // try{
+    try{
       var html = get(BASE_URL + word);
-      var doc = setDocument(parseDom(html));
-      var match = doc.getElementsByClassName('basic').length;
-      if ( !match ){
+      var doc = parseDom(html);
+      var match = getByClass(doc, 'basic');
+      if ( !match.length ){
         alert('查无此词');
         return
       }
       else {
-        alert(match);
+        var arr = []; //储存单词释义
+        var resultArr = match[0].getElementsByTagName('li');
+        forEach(resultArr, function(item){
+          arr.push(item.innerText);
+        });
+        alert(arr.join('\n'));
       }
-    /*
     }
     catch(e){
       alert(e);
       alert('查询失败，请再试一次:(');
     }
-    */
 
   }
 
@@ -51,8 +54,42 @@
     return dom
   }
 
-  function setDocument( node ){
-    alert(node);
-    return preferredDoc.appendChild(node);
+  function getByClass( nodelist, className ){
+    var ret = [];
+    (function wrapper(nodelist, className){
+      var length = nodelist.length;
+      for (var i=0; i<length; i++){
+        if (typeof nodelist[i].className != 'undefined'){
+          if ( nodelist[i].className.indexOf(className) > -1){
+            ret.push(nodelist[i])
+          }
+        }
+        if (nodelist[i].childNodes){
+          wrapper(nodelist[i].childNodes, className);
+        }
+      }
+    })(nodelist, className);
+    return ret
   }
+
+  function hasClass( node, className ){
+    var classNameArray = node.className.split(/\s+/);
+    for (var i=0; i<classNameArray.length; i++){
+      return classNameArray[i] == className;
+    }
+  }
+
+  function forEach(arr, fn){
+    var length = arr.length;
+    for (var i=0; i<length; i++){
+      fn(arr[i])
+    }
+  }
+
+  function traverseProperty(obj) {
+    for (prop in obj) {
+      console.log(prop);
+    }
+  }
+
 })();
